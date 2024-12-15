@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ==" crossorigin="anonymous"></script>
+
+    <title>Добавление товара</title>
+</head>
+<body>
+<div class = "container py = 5 mt-2">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                </svg>
+                <span class="fs-4 ms-2" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example"  data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black" th:if="${user == 1}"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black" th:if="${user == 0}"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Войти</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
+                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+            </nav>
+        </div>
+    </header>
+</div>
+<div class="container mt-5">
+    <h1>Добавление товара</h1>
+    <form action="/add/product" method="POST" enctype="multipart/form-data">
+        <div class="form-group mt-2">
+            <label for="image">Картинка товара:</label>
+            <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+        <div class="form-group mt-2">
+            <label for="name">Имя:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group mt-2">
+            <label for="description">Описание:</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group mt-2">
+            <label for="price">Цена:</label>
+            <input type="number" class="form-control" id="price" name="price" required step="0.01" min="0">
+        </div>
+        <div class="form-group mt-2">
+            <label for="composition">Состав:</label>
+            <textarea class="form-control" id="composition" name="composition" required></textarea>
+        </div>
+        <div class="form-group mt-2">
+            <label for="category">Категория:</label>
+            <select class="form-control" id="category" name="category" required onchange="updateSubCategories(this)">
+                <option value="">Выберите категорию...</option>
+                <option value="category1">Новинки</option>
+                <option value="category2">Одежда</option>
+                <option value="category3">Обувь</option>
+                <option value="category4">Аксессуары</option>
+            </select>
+        </div>
+        <div class="form-group mt-2" >
+            <label for="sub_category">Подкатегория:</label>
+            <select class="form-control" id="sub_category" name="sub_category" required>
+                <option value="">Выберите подкатегорию...</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Добавить товар</button>
+    </form>
+
+<div class="mt-5">
+    <h2 class="mb-4">Добавление товаров в "С чем носить":</h2>
+    <form action="/import" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" multiple>
+            <br>
+            <input type="submit" class="btn btn-primary mt-3" value="Загрузить JSON файл">
+    </form>
+    <div th:if="${message_success}" class="badge text-bg-success rounded-pill mt-3" style="font-size: 18px;">
+        [[${message_success}]]
+    </div>
+    <div th:if="${message_error}" class="badge text-bg-danger rounded-pill mt-3" style="font-size: 18px;">
+        [[${message_error}]]
+    </div>
+</div>
+</div>
+
+
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center" >
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+    </div>
+</footer>
+
+<script>
+    function updateSubCategories(categorySelect) {
+      var subCategorySelect = document.getElementById("sub_category");
+      subCategorySelect.innerHTML = ""; // Очищаем список подкатегорий
+
+      var category = categorySelect.value;
+
+      if (category === "category1") {
+        // Опции для Категории 1
+        var option1 = document.createElement("option");
+        option1.value = "1";
+        option1.text = "Одежда";
+        subCategorySelect.add(option1);
+
+        var option2 = document.createElement("option");
+        option2.value = "2";
+        option2.text = "Обувь";
+        subCategorySelect.add(option2);
+
+        var option3 = document.createElement("option");
+        option3.value = "3";
+        option3.text = "Аксессуары";
+        subCategorySelect.add(option3);
+      } else if (category === "category2") {
+        // Опции для Категории 2
+        var option4 = document.createElement("option");
+        option4.value = "4";
+        option4.text = "Брюки";
+        subCategorySelect.add(option4);
+
+        var option5 = document.createElement("option");
+        option5.value = "5";
+        option5.text = "Верхняя одежда";
+        subCategorySelect.add(option5);
+
+        var option6 = document.createElement("option");
+        option6.value = "6";
+        option6.text = "Джемперы, свитеры и кардиганы";
+        subCategorySelect.add(option6);
+
+        var option7 = document.createElement("option");
+        option7.value = "7";
+        option7.text = "Джинсы";
+        subCategorySelect.add(option7);
+
+        var option8 = document.createElement("option");
+        option8.value = "8";
+        option8.text = "Домашняя одежда";
+        subCategorySelect.add(option8);
+
+        var option9 = document.createElement("option");
+        option9.value = "9";
+        option9.text = "Майки";
+        subCategorySelect.add(option9);
+
+        var option10 = document.createElement("option");
+        option10.value = "10";
+        option10.text = "Нижнее белье";
+        subCategorySelect.add(option10);
+
+        var option11 = document.createElement("option");
+        option11.value = "11";
+        option11.text = "Носки и гетры";
+        subCategorySelect.add(option11);
+
+        var option12 = document.createElement("option");
+        option12.value = "12";
+        option12.text = "Пиджаки и костюмы";
+        subCategorySelect.add(option12);
+
+        var option13 = document.createElement("option");
+        option13.value = "13";
+        option13.text = "Рубашки";
+        subCategorySelect.add(option13);
+
+        var option14 = document.createElement("option");
+        option14.value = "14";
+        option14.text = "Спортивные костюмы";
+        subCategorySelect.add(option14);
+
+        var option15 = document.createElement("option");
+        option15.value = "15";
+        option15.text = "Футболки и поло";
+        subCategorySelect.add(option15);
+
+        var option16 = document.createElement("option");
+        option16.value = "16";
+        option16.text = "Худи и свитшоты";
+        subCategorySelect.add(option16);
+
+        var option17 = document.createElement("option");
+        option17.value = "17";
+        option17.text = "Шорты";
+        subCategorySelect.add(option17);
+
+      } else if (category === "category3") {
+        // Опции для Категории 3
+       var option18 = document.createElement("option");
+        option18.value = "18";
+        option18.text = "Ботинки";
+        subCategorySelect.add(option18);
+
+        var option19 = document.createElement("option");
+        option19.value = "19";
+        option19.text = "Домашняя обувь";
+        subCategorySelect.add(option19);
+
+        var option20 = document.createElement("option");
+        option20.value = "20";
+        option20.text = "Кроссовки и кеды";
+        subCategorySelect.add(option20);
+
+        var option21 = document.createElement("option");
+        option21.value = "21";
+        option21.text = "Мокасины и топсайдеры";
+        subCategorySelect.add(option21);
+
+        var option22 = document.createElement("option");
+        option22.value = "22";
+        option22.text = "Резиновая обувь";
+        subCategorySelect.add(option22);
+
+        var option23 = document.createElement("option");
+        option23.value = "23";
+        option23.text = "Сандалии";
+        subCategorySelect.add(option23);
+
+        var option24 = document.createElement("option");
+        option24.value = "24";
+        option24.text = "Сапоги";
+        subCategorySelect.add(option24);
+
+        var option25 = document.createElement("option");
+        option25.value = "25";
+        option25.text = "Туфли";
+        subCategorySelect.add(option25);
+      } else if (category === "category4") {
+        // Опции для Категории 4
+        var option26 = document.createElement("option");
+        option26.value = "26";
+        option26.text = "Галстуки и запонки";
+        subCategorySelect.add(option26);
+
+        var option27 = document.createElement("option");
+        option27.value = "27";
+        option27.text = "Головные уборы";
+        subCategorySelect.add(option27);
+
+        var option28 = document.createElement("option");
+        option28.value = "28";
+        option28.text = "Зонты";
+        subCategorySelect.add(option28);
+
+        var option29 = document.createElement("option");
+        option29.value = "29";
+        option29.text = "Кошельки и визитницы";
+        subCategorySelect.add(option29);
+
+        var option30 = document.createElement("option");
+        option30.value = "30";
+        option30.text = "Очки";
+        subCategorySelect.add(option30);
+
+        var option31 = document.createElement("option");
+        option31.value = "31";
+        option31.text = "Перчатки и варежки";
+        subCategorySelect.add(option31);
+
+        var option32 = document.createElement("option");
+        option32.value = "32";
+        option32.text = "Ремни и подтяжки";
+        subCategorySelect.add(option32);
+
+        var option33 = document.createElement("option");
+        option33.value = "33";
+        option33.text = "Рюкзаки";
+        subCategorySelect.add(option33);
+
+        var option34 = document.createElement("option");
+        option34.value = "34";
+        option34.text = "Сумки";
+        subCategorySelect.add(option34);
+      }
+    }
+</script>
+
+</body>
+</html>

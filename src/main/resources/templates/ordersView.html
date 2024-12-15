@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель просмотра заказов</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        #myChartContainer {
+            max-width: 700px; /* Максимальная ширина контейнера диаграммы */
+            margin: 0 auto; /* Центрирование контейнера по горизонтали */
+        }
+    </style>
+</head>
+<body>
+<div class = "container py = 5 mt-2">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                </svg>
+                <span class="fs-4 ms-2" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example"  data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black" th:if="${user == 1}"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black" th:if="${user == 0}"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Войти</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
+                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+            </nav>
+        </div>
+    </header>
+</div>
+
+
+<div class="container">
+    <div>
+        <a class="btn btn-primary"  href="/order/sales">Продажи</a>
+    </div>
+    <div class="d-flex align-items-center">
+        <h1 th:text="'Баланс: ' + ${balance} + ' руб.'" class="mr-3"></h1>
+        <a type="button" class="btn btn-primary mt-3" href="/withdraw" >Работа со средствами</a>
+    </div>
+    <div>
+        <h1 class="mt-3 mb-3">Продажи товаров по подкатологу:</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="input-group mb-3">
+                <input type="date" id="date-start" name="date-start" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group mb-3">
+                <input type="date" id="date-end" name="date-end" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button id="show-data-button" class="btn btn-primary">Показать данные</button>
+        </div>
+    </div>
+        <div>
+            <canvas id="chart"></canvas>
+        </div>
+    <div id="myChartContainer" class="mt-5">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary mt-3 mb-3" data-toggle="modal" data-target="#dateRangeModal">
+            Расчет среднего чека по дате
+        </button>
+    </div>
+    <div class="mt-3 mb-3" th:if="${revenue != null}">
+        <h1 th:text="'Средний чек за период: ' + ${revenue} + ' руб.'"></h1>
+    </div>
+    <span class="mt-2">
+        <a class="mt-2" href="/export"> Экспорт заказанных товаров в Excel</a>
+    </span>
+    <div class="row mt-3">
+        <div class="col-md-2">
+            <div class="input-group mb-3">
+                <input type="date" id="startDatePicker" name="startDatePicker" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group mb-3">
+                <input type="date" id="endDatePicker" name="endDatePicker" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button onclick="applyFilters()" class="btn btn-primary">Применить фильтры</button>
+        </div>
+    </div>
+   <h1 class="mb-2 mt-3">Список заказов:</h1>
+    <table id="myTable" class="table">
+        <thead>
+        <tr>
+            <th onclick="sortTable(0)">#</th>
+            <th onclick="sortTable(1)">Покупатель</th>
+            <th onclick="sortTable(2)">Товар</th>
+            <th onclick="sortTable(3)">Описание</th>
+            <th onclick="sortTable(4)">Подкаталог</th>
+            <th onclick="sortTable(5)">Стоимость</th>
+            <th onclick="sortTable(6)">Дата заказа</th>
+            <th onclick="sortTable(7)">Дата доставки</th>
+            <th onclick="sortTable(8)">Статус заказа</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td>
+                <a th:href="'/profile/' + ${order.user_id}" th:text="'Покупатель ' + ${order.user_id}"></a>
+            </td>
+            <td th:text="${order.Products.name}"></td>
+            <td th:text="${order.Products.description}"></td>
+            <td th:text="${order.Products.catalog_sub_id}"></td>
+            <td th:text="${order.Products.price}"></td>
+            <td th:text="${order.created_at}"></td>
+            <td th:text="${order.delivery_date}"></td>
+            <td th:text="${order.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dateRangeModalLabel">Расчет среднего чека</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="dateRangeTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="select-tab" data-toggle="tab" href="#select" role="tab" aria-controls="select" aria-selected="true">Выбор промежутка</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false">Ручной выбор даты</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="dateRangeTabsContent">
+                    <div class="tab-pane fade show active" id="select" role="tabpanel" aria-labelledby="select-tab">
+                        <form action="/order/revenue/1" method="post">
+                            <div class="form-group mt-3">
+                                <label for="dateRangeSelect">Выручка за:</label>
+                                <select class="form-control" id="dateRangeSelect" name="dateRange"  required>
+                                    <option value="">Выберите</option>
+                                    <option value="today">Сегодня</option>
+                                    <option value="week">Неделя</option>
+                                    <option value="month">Месяц</option>
+                                    <option value="year">Год</option>
+                                    <option value="allTime">Все время</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Применить</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade mt-3" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+                        <form action="/order/revenue/2" method="post">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label for="startDate">С</label>
+                                    <input type="date" name="startDate" class="form-control" id="startDate" required>
+                                </div>
+                                <div class="col">
+                                    <label for="endDate">По</label>
+                                    <input type="date" name="endDate" class="form-control" id="endDate" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Применить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center" >
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+    </div>
+</footer>
+<script th:inline="javascript">
+    var orders = [[${orders}]];
+    var subcategories = [[${subcategories}]]; // Массив с объектами типа CatalogSubdivision
+    // Создание объекта для хранения статистики
+    var stats = {};
+
+    // Подсчет статистики
+    orders.forEach(function(order) {
+      var subcategoryId = order.products.catalog_sub_id;
+
+      if (!stats[subcategoryId]) {
+        stats[subcategoryId] = 0;
+      }
+
+      stats[subcategoryId] += order.quantity; // Учитываем количество товаров
+    });
+
+    // Получение данных для диаграммы
+    var labels = Object.keys(stats);
+    var data = Object.values(stats);
+
+    // Получение имен подкатегорий
+    var subcategoryNames = labels.map(function(subcategoryId) {
+      var subcategory = subcategories.find(function(subcategory) {
+        return subcategory.id === parseInt(subcategoryId);
+      });
+
+      return subcategory ? subcategory.name : 'Неизвестная подкатегория';
+    });
+
+    // Создание диаграммы
+
+
+    var dateStartInput = document.getElementById('date-start');
+    var dateEndInput = document.getElementById('date-end');
+    var startDate = dateStartInput.value; // Начальная дата
+    var endDate = dateEndInput.value; // Конечная дата
+    var showDataButton = document.getElementById('show-data-button');
+    var resetFilterButton = document.getElementById('reset-filter-button');
+
+    // Обновление данных и перерисовка диаграммы при изменении выбранного промежутка даты
+    showDataButton.addEventListener('click', function() {
+        startDate = dateStartInput.value;
+        endDate = dateEndInput.value;
+
+        // Проверка наличия значения начальной и конечной даты
+        if (startDate && endDate) {
+            // Фильтрация заказов по выбранному промежутку даты
+            filteredOrders = orders.filter(function(order) {
+                var orderDate = new Date(order.created_at);
+
+                return orderDate >= new Date(startDate) && orderDate <= new Date(endDate);
+            });
+
+            // Подсчет статистики для отфильтрованных заказов
+            filteredStats = {};
+
+            filteredOrders.forEach(function(order) {
+                var subcategoryId = order.products.catalog_sub_id;
+
+                if (!filteredStats[subcategoryId]) {
+                    filteredStats[subcategoryId] = 0;
+                }
+
+                filteredStats[subcategoryId] += order.quantity; // Учитываем количество товаров
+            });
+
+            // Обновление данных для диаграммы
+            filteredLabels = Object.keys(filteredStats);
+            filteredData = Object.values(filteredStats);
+            filteredSubcategoryNames = filteredLabels.map(function(subcategoryId) {
+                var subcategory = subcategories.find(function(subcategory) {
+                    return subcategory.id === parseInt(subcategoryId);
+                });
+
+                return subcategory ? subcategory.name : 'Неизвестная подкатегория';
+            });
+
+            // Обновить диаграмму
+            updateChart();
+        }
+    });
+
+
+    // Создание и обновление диаграммы
+    function createChart() {
+        var ctx = document.getElementById('chart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: subcategoryNames, // Используем имена подкатегорий вместо идентификаторов
+                datasets: [{
+                    label: 'Количество товаров',
+                    data: data,
+                    backgroundColor: getRandomColorArray(labels.length)
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Отключение пропорционального масштабирования
+                scales: {
+                    y: {
+                        beginAtZero: true // Начало оси Y с нуля
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Статистика товаров по подкатегориям'
+                }
+            }
+        });
+        return chart;
+    }
+
+    function updateChart() {
+        chart.data.labels = filteredSubcategoryNames;
+        chart.data.datasets[0].data = filteredData;
+        chart.update();
+    }
+
+    // Создание диаграммы при загрузке страницы
+    var chart = createChart();
+
+    // Генерация случайного массива цветов
+    function getRandomColorArray(length) {
+      var colors = [];
+
+      for (var i = 0; i < length; i++) {
+        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        colors.push(color);
+      }
+
+      return colors;
+    }
+</script>
+
+<script>
+    function applyFilters() {
+        var startDate = document.getElementById("startDatePicker").value;
+        var endDate = document.getElementById("endDatePicker").value;
+
+        var table = document.getElementById("myTable");
+        var rows = table.getElementsByTagName("tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var dateColumn = rows[i].getElementsByTagName("td")[6]; // Индекс колонки с датой заказа
+            var deliveryDateColumn = rows[i].getElementsByTagName("td")[7]; // Индекс колонки с датой доставки
+
+            if (dateColumn && deliveryDateColumn) {
+                var date = dateColumn.textContent;
+                var deliveryDate = deliveryDateColumn.textContent;
+
+                if ((startDate && date < startDate) || (endDate && date > endDate)) {
+                    rows[i].style.display = "none"; // Скрыть строки, не соответствующие фильтру по дате
+                } else {
+                    rows[i].style.display = ""; // Показать строки, соответствующие фильтру по дате
+                }
+            }
+        }
+    }
+
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("myTable");
+        switching = true;
+        while (switching) {
+            switching = false;
+            rows = table.getElementsByTagName("tr");
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+</script>
+<script>
+    var categoryData = {
+    1: 'Одежда',
+    2: 'Обувь',
+    3: 'Аксессуары',
+    4: 'Брюки',
+    5: 'Верхняя одежда',
+    6: 'Джемперы, свитеры и кардиганы',
+    7: 'Джинсы',
+    8: 'Домашняя одежда',
+    9: 'Майки',
+    10: 'Нижнее белье',
+    11: 'Носки и гетры',
+    12: 'Пиджаки и костюмы',
+    13: 'Рубашки',
+    14: 'Спортивные костюмы',
+    15: 'Футболки и поло',
+    16: 'Худи и свитшоты',
+    17: 'Шорты',
+    18: 'Ботинки',
+    19: 'Домашняя обувь',
+    20: 'Кроссовки и кеды',
+    21: 'Мокасины и топсайдеры',
+    22: 'Резиновая обувь',
+    23: 'Сандалии',
+    24: 'Сапоги',
+    25: 'Туфли',
+    26: 'Галстуки и запонки',
+    27: 'Головные уборы',
+    28: 'Зонты',
+    29: 'Кошельки и визитницы',
+    30: 'Очки',
+    31: 'Перчатки и варежки',
+    32: 'Ремни и подтяжки',
+    33: 'Рюкзаки',
+    34: 'Сумки'
+};
+   // Получение данных из таблицы
+var table = document.getElementById("myTable");
+var rows = table.getElementsByTagName("tr");
+
+var data = {};
+var labels = [];
+
+for (var i = 1; i < rows.length; i++) {
+    var categoryColumn = rows[i].getElementsByTagName("td")[4]; // Индекс колонки с подкатегорией товара
+    var priceColumn = rows[i].getElementsByTagName("td")[5]; // Индекс колонки с ценой товара
+
+    if (categoryColumn && priceColumn) {
+        var categoryId = parseInt(categoryColumn.textContent);
+        var price = parseFloat(priceColumn.textContent);
+
+        if (!isNaN(categoryId) && categoryData[categoryId] && !isNaN(price)) {
+            var categoryName = categoryData[categoryId];
+
+            if (data[categoryName]) {
+                data[categoryName] += price;
+            } else {
+                data[categoryName] = price;
+                labels.push(categoryName);
+            }
+        }
+    }
+}
+
+// Создание круговой диаграммы
+var ctx = document.getElementById("myChart").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "pie",
+    data: {
+        labels: labels,
+        datasets: [{
+            data: Object.values(data),
+            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8B64FF", "#FF9F40"] // Цвета секторов диаграммы
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+
+var total = Object.values(data).reduce(function(acc, value) {
+    return acc + value;
+}, 0);
+
+// Получение и добавление названий подкатегорий в массив меток с процентами
+var labels = Object.keys(data).map(function(category) {
+    var categoryTotal = data[category]; // Получение суммарной стоимости товаров для подкатегории
+    var percentage = ((categoryTotal / total) * 100).toFixed(2); // Вычисление процента от общей стоимости с округлением до двух знаков после запятой
+    return category + ": " + percentage + "%"; // Комбинирование названия и процента в метке
+});
+
+// Обновление меток в диаграмме
+myChart.data.labels = labels;
+myChart.update();
+</script>
+</body>
+</html>

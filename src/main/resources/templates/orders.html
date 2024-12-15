@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>Оформление заказа</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ==" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class = "container py = 5 mt-2">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                </svg>
+                <span class="fs-4 ms-2" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example" data-translation="Пример ценообразования" data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
+                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+            </nav>
+        </div>
+    </header>
+</div>
+
+<div class = "container py = 5 mt-2">
+    <nav aria-label="панировочные сухари">
+        <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis" href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                    </svg>
+                    <span class="visually-hidden">Главная</span>
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" href="/basket">Корзина</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" href="/basket/order">Оформление заказа</a>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<div  class="container py = 5 mt-5">
+    <div class="col-md-7 col-lg-8">
+        <h3 class="mb-3"><ya-tr-span data-index="13-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Billing address" data-ch="0" data-type="trSpan">Оформление заказа</ya-tr-span></h3>
+        <form action="/basket/order" method="post">
+                    <label for="state" class="form-label" name="state"><ya-tr-span data-index="21-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="State" data-translation="Состояние" data-ch="0" data-type="trSpan">Пункт выдачи</ya-tr-span></label>
+                    <select class="form-select" id="state" name="state" required="">
+                        <option value="">Выберите...</option>
+                        <option>Пункт выдачи 1</option>
+                        <option>Пункт выдачи 2</option>
+                        <option>Пункт выдачи 3</option>
+                        <option>Пункт выдачи 4</option>
+                        <option>Пункт выдачи 5</option>
+                        <option>Пункт выдачи 6</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Пожалуйста, выберите пункт выдачи
+                    </div>
+                    <div>
+                        <label for="date" class="form-label mt-1">Дата доставки:</label>
+                        <input type="date" name="deliveryDate" class="form-control" id="date" placeholder="Дата доставки" value="" required="">
+                        <small>Время хранения заказа в пункте выдачи: 2 дня</small>
+                    </div>
+            <hr class="my-3">
+                <div>
+                    <h1 th:text="'Заказ на сумму: ' + ${total} + ' руб.'"></h1>
+                </div>
+            <button class="w-100 btn btn-primary btn-lg mt-2" type="submit" id="openModalBtn"><ya-tr-span data-index="23-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Continue to checkout" data-translation="Продолжайте оформление заказа" data-ch="0" data-type="trSpan">Оформить заказ</ya-tr-span></button>
+        </form>
+    </div>
+</div>
+
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center" >
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+    </div>
+</footer>
+<script>
+    // Находим элемент input с id "date"
+    var dateInput = document.getElementById('date');
+
+    // Получаем сегодняшнюю дату
+    var today = new Date();
+
+    // Вычисляем дату, начиная с которой можно выбирать
+    var minDate = new Date(today.getTime() + (2*24 * 60 * 60 * 1000)); // Сегодня + 1 день
+
+    // Вычисляем дату, до которой можно выбирать (через 5 дней)
+    var maxDate = new Date(today.getTime() + (7 * 24 * 60 * 60 * 1000)); // Сегодня + 5 дней
+
+    // Преобразуем даты в строковый формат YYYY-MM-DD
+    var minDateString = minDate.toISOString().split('T')[0];
+    var maxDateString = maxDate.toISOString().split('T')[0];
+
+    // Устанавливаем атрибуты min и max для ограничения выбора даты
+    dateInput.setAttribute('min', minDateString);
+    dateInput.setAttribute('max', maxDateString);
+</script>
+</body>
+</html>

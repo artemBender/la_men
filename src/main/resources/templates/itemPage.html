@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <title th:text="${product.description} + ' ' + ${product.name}"></title>
+    <script src="webjars/jquery/2.0.3/jquery.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ==" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container py = 5 mt-2">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                </svg>
+                <span class="fs-4 ms-2" style="color: black"><ya-tr-span data-index="1-0" data-translated="false"
+                                                                    data-source-lang="en" data-target-lang="ru"
+                                                                    data-value="Pricing example"
+                                                                    data-translation="Пример ценообразования"
+                                                                    data-ch="0"
+                                                                    data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+            </a>
+            <h4 class="mt-2">
+                <a href="/basket" class="text-decoration-none ms-5" th:if="${user == 1 && admin != 1}">
+                    <ya-tr-span style="color: black" data-index="27-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value=" Example link text " data-translation="" data-ch="0" data-type="trSpan" data-selected="false"> Корзина </ya-tr-span>
+                    <svg xmlns="http://www.w3.org/2000/svg" style="color: black; height: 16px; width: 16px; vertical-align: middle; margin-bottom: 3px;" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
+                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
+                    </svg>
+                    <span id="cart-marker" style="display: none; font-size: 0.8em; vertical-align: super;"></span>
+                </a>
+            </h4>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black" th:if="${user == 1}"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black" th:if="${user == 0}"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Войти</ya-tr-span></a>
+
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black">
+                    <ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru"
+                                data-value="Support" data-ch="0" data-type="trSpan">Поддержка
+                    </ya-tr-span>
+                </a>
+                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black">
+                    <ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru"
+                                data-value="About" data-ch="0" data-type="trSpan">О нас
+                    </ya-tr-span>
+                </a>
+            </nav>
+        </div>
+    </header>
+</div>
+
+<div class = "container py = 5 mt-2">
+    <nav aria-label="панировочные сухари">
+        <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis" href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                    </svg>
+                    <span class="visually-hidden">Главная</span>
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" th:href="'/home/' + ${product.catalog_sub_id}">[[${subCatalogName}]]</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" th:href="'/home/' + ${id} + '/about'">[[${product.description} + ' ' + ${product.name}]]</a>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<form th:action="@{'/home/' + ${id} + '/about'}" method="post" >
+    <div class="container py-5">
+        <img th:src="@{'data:image/png;base64,'+${product.generateBase64Image()}}" width="300" height="400"/>
+        <h2 th:text="${product.name}" class="mt-5"></h2>
+        <h4 th:text="${product.description}"></h4>
+        <h5 th:text="${product.price} + ' руб.'"></h5>
+        <p th:text="'Состав: ' + ${product.composition}"></p>
+        <div class="d-flex py-2">
+            <div th:each="el:${size}" class="px-3" th:if="${el.size != 0 || admin == 1}">
+                <label class="btn btn-light rounded-pill px-3" th:if="${el.quantity != 0 || admin == 1}">
+                    <input type="radio" name="size" th:value="${el.size}" autocomplete="off" class="form-check-input" checked="" required="">
+                    <span th:text="${el.size}" th:if="${el.quantity != 1}"></span>
+                    <span th:text="${el.size} + ' Последний'" th:if="${el.quantity == 1}" style="color: red"></span>
+                    <span th:if="${admin == 1}" th:text="' - ' + ${el.quantity} + 'шт.'" ></span>
+                </label>
+            </div>
+        </div>
+        <a type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#modalChoice" th:if="${user == 0 && admin != 1}">Добавить в корзину</a>
+        <button type="submit" class="btn btn-primary mt-3" th:if="${user == 1 && admin != 1}">Добавить в корзину</button>
+        <a type="button" class="btn btn-primary mt-3" th:if="${admin == 1}" th:href="'/product/delete/' + ${id}">Удалить товар</a>
+        <a type="button" class="btn btn-primary mt-3" th:if="${admin == 1}" th:href="'/product/edit/' + ${id}">Редактировать товар</a>
+        <button type="button" class="btn btn-primary mt-3" th:if="${admin == 1}" data-toggle="modal" data-target="#myModal">Заказать размер</button>
+    </div>
+</form>
+<div>
+    <h4 class="container py = 5" th:text="'Отзывы:'"></h4>
+</div>
+<div class="d-flex flex-column flex-md-row p-4 gap-4 container py = 5">
+    <div th:if="${feedbacks.isEmpty()}" class="alert alert-secondary container py = 5">
+        Отзывов нет
+    </div>
+    <div th:each="el : ${feedbacks}" class="list-group">
+        <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+                <h6 th:text="'Покупатель ' + ${el.user_id}" class="mb-1"></h6>
+                <p th:text="${el.feedback_body}" class="mb-0 opacity-75">
+            </div>
+        </div>
+    </div>
+</div>
+<div th:unless="${products.isEmpty()}" class="container py = 5">
+    <h3 th:text="'С этим носят:'"></h3>
+</div>
+<div class="container py-2">
+    <div class="row">
+        <div class="col-md-6">
+            <div th:each="el, iterStat : ${products}" class="card mb-2" th:if="${iterStat.index % 2 == 0}">
+                <img th:src="@{'data:image/png;base64,'+${el.generateBase64Image()}}" width="180" height="240" class="m-3" alt="Product Image">
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${el.name}"></h3>
+                    <h4 class="card-subtitle" th:text="${el.price}"></h4>
+                    <p class="card-text" th:text="${el.description}"></p>
+                    <a th:href="'/home/' + ${el.id} + '/about'" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div th:each="el, iterStat : ${products}" class="card mb-2" th:if="${iterStat.index % 2 != 0}">
+                <img th:src="@{'data:image/png;base64,'+${el.generateBase64Image()}}" width="180" height="240" class="m-3" alt="Product Image">
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${el.name}"></h3>
+                    <h4 class="card-subtitle" th:text="${el.price}"></h4>
+                    <p class="card-text" th:text="${el.description}"></p>
+                    <a th:href="'/home/' + ${el.id} + '/about'" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+                <h5 class="mb-0"><ya-tr-span data-index="4-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Enable this setting?" data-translation="Включить этот параметр?" data-ch="0" data-type="trSpan">Войдите</ya-tr-span></h5>
+                <p class="mb-0"><ya-tr-span data-index="5-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="You can always change your mind in your account settings." data-translation="Вы всегда можете изменить свое решение в настройках своей учетной записи." data-ch="0" data-type="trSpan" data-selected="false">Войдите в систему или зарегистрируйтесь, чтобы добавлять товары в корзину</ya-tr-span></p>
+            </div>
+            <form action="/login" method="get">
+                <div class="modal-footer flex-nowrap p-0">
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal"><ya-tr-span data-index="6-1" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="No thanks" data-translation="Нет" data-ch="0" data-type="trSpan">Отмена</ya-tr-span></button>
+                    <button type="submit" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong><ya-tr-span data-index="6-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Yes, enable" data-translation="Да" data-ch="0" data-type="trSpan">Войти</ya-tr-span></strong></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Заказать товар</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="'/order/size/' + ${id}" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Поставщик: </label>
+                        <span th:text="${product.name}"></span>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Описание: </label>
+                        <span th:text="${product.description}"></span>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Стоимость за единицу: </label>
+                        <span id="price" name="price" th:text="${product.price/2} + ' бел. руб.'"></span>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="size">Размер:</label>
+                        <input type="text" class="form-control" id="size" name="size" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Количество:</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" oninput="calculateTotal()" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="total">Итого:</label>
+                        <input type="number" class="form-control" id="total" name="total" readonly required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Заказать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+    </div>
+</footer>
+<script>
+    function calculateTotal() {
+        var price = parseFloat(document.getElementById("price").innerText);
+        var quantity = parseFloat(document.getElementById("quantity").value);
+        var total = price * quantity;
+
+        if (!isNaN(total)) {
+            document.getElementById("total").value = total;
+        } else {
+            document.getElementById("total").value = "";
+        }
+    }
+</script>
+<script th:inline="javascript">
+    const cartMarker = document.getElementById('cart-marker');
+    const cartItemCount = [[${cartItemCount}]];
+
+    function updateCartMarker(count) {
+        if (count > 0) {
+            cartMarker.style.display = 'inline';
+            cartMarker.textContent = count;
+        } else {
+            cartMarker.style.display = 'none';
+        }
+    }
+
+    updateCartMarker(cartItemCount);
+</script>
+</body>
+</html>

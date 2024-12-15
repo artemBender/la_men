@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Профиль</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ==" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class = "container py = 5 mt-2">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                </svg>
+                <span class="fs-4 ms-2" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example" data-translation="Пример ценообразования" data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalChoice"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Выйти</ya-tr-span></a>
+            </nav>
+        </div>
+    </header>
+</div>
+<div class="container py-20">
+    <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="firstName" class="form-label"><ya-tr-span data-index="14-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="First name" data-translation="Имя пользователя" data-ch="0" data-type="trSpan">Имя пользователя</ya-tr-span></label>
+                        <input type="text" name="firstname" class="form-control" id="firstName" placeholder="" th:value="${user.firstname}" required="required">
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="lastName" class="form-label"><ya-tr-span data-index="15-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Last name" data-translation="Фамилия" data-ch="0" data-type="trSpan">Фамилия</ya-tr-span></label>
+                        <input type="text" name="lastname" class="form-control" id="lastName" placeholder="" th:value="${user.lastname}" required="">
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="phone" class="form-label"><ya-tr-span data-index="18-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Phone " data-translation="Номер мобильного телефона " data-ch="0" data-type="trSpan">Номер мобильного телефона </ya-tr-span></label>
+                        <input type="tel" name="phone" class="form-control" id="phone" placeholder="" th:value="${user.phone}">
+                        <div class="invalid-feedback">
+                            Please enter your phone number.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="email" class="form-label"><ya-tr-span data-index="17-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Email " data-translation="Электронная почта " data-ch="0" data-type="trSpan">Электронная почта </ya-tr-span></label>
+                        <input type="email" name="email"  class="form-control" id="email" placeholder="you@example.com" th:value="${user.email}">
+                        <div class="invalid-feedback">
+                            Please enter a valid email address for shipping updates.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="date" class="form-label"><ya-tr-span data-index="18-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Phone " data-translation="Дата рождения " data-ch="0" data-type="trSpan">Дата рождения </ya-tr-span></label>
+                        <input type="date" name="birthday" class="form-control" id="date" placeholder=""  th:value="${birthday}">
+
+                    </div>
+
+                    <div class="col-12">
+                        <label for="address" class="form-label"><ya-tr-span data-index="18-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Phone " data-translation="Город" data-ch="0" data-type="trSpan">Город </ya-tr-span></label>
+                        <input type="text" name="town" class="form-control" id="address" placeholder="Город" th:value="${town}">
+                    </div>
+                </div>
+            </div>
+    </div>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center" >
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

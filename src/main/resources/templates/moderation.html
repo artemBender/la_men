@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-0wnxKb0Y+2/5XK87EhV7VzGkX8B8q9ZTlz0jHk9q3Y4ajI+5Dv3mtRqfOnPnSdEJv6sK6S9jX9bcQ3b5Fy9eKQ==" crossorigin="anonymous"></script>
+
+    <title>Добавление товара</title>
+</head>
+<body>
+<div class = "container py = 5 mt-2">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                </svg>
+                <span class="fs-4 ms-2" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example"  data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black" th:if="${user == 1}"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black" th:if="${user == 0}"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Войти</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
+                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+            </nav>
+        </div>
+    </header>
+</div>
+
+<div class="container">
+    <h2>Панель модерации отзывов</h2>
+        <div th:if="${reviews.isEmpty()}" class="alert alert-secondary container py = 5 mt-3">
+            Отзывов нет
+        </div>
+    <div class="row">
+        <div class="col-md-6" th:each="review : ${reviews}">
+            <div class="card">
+                <div class="card-header" th:text="'Покупатель ' + ${review.user_id}"></div>
+                <div class="card-body">
+                    <p class="card-text" th:text="${review.feedback_body}"></p>
+                    <a th:href="'/moderation/delete/' + ${review.id}" class="btn btn-danger">Удалить</a>
+                    <a th:href="'/moderation/public/' + ${review.id}" class="btn btn-primary">Опубликовать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center" >
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+    </div>
+</footer>
+</body>
+</html>

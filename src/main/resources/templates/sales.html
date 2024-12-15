@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель просмотра заказов</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #salesTable {
+            display: none;
+        }
+        .hidden-h2 {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class = "container py = 5 mt-2">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                </svg>
+                <span class="fs-4 ms-2" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example"  data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black" th:if="${user == 1}"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black" th:if="${user == 0}"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Войти</ya-tr-span></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
+                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+            </nav>
+        </div>
+    </header>
+</div>
+
+
+<div class="container">
+    <div class="d-flex align-items-center">
+        <h1 th:text="'Баланс: ' + ${balance} + ' руб.'" class="mr-3"></h1>
+        <a type="button" class="btn btn-primary mt-3" href="/withdraw">Работа со средствами</a>
+    </div>
+<div class="mt-3">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="input-group mb-3">
+                <input type="date" id="start" name="start" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group mb-3">
+                <input type="date" id="end" name="end" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button onclick="updateChart()" class="btn btn-primary">Показать данные</button>
+        </div>
+    </div>
+    <canvas id="myChart"></canvas>
+    <h1 id="profitField"></h1>
+    <h1 id="totalRevenue" th:text="'Выручка за все время: ' + ${revenue}"></h1>
+</div>
+    <h2 class="mt-2">Закупки в системе:</h2>
+    <div class="row">
+        <div class="col">
+            <input type="date" id="startDate" name="startDate" class="form-control">
+        </div>
+        <div class="col">
+            <input type="date" id="endDate" name="endDate" class="form-control">
+        </div>
+        <div class="col">
+            <button type="button" id="clearButton" class="btn btn-secondary">Очистить</button>
+        </div>
+    </div>
+    <table id="purchaseTable" class="table mt-3">
+        <thead>
+        <tr>
+            <th data-column="id">#</th>
+            <th data-column="name">Товар</th>
+            <th data-column="description">Описание</th>
+            <th data-column="quantity">Количество</th>
+            <th data-column="size">Размер</th>
+            <th data-column="cost">Общая стоимость</th>
+            <th data-column="created_at">Дата закупки</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="purch : ${purchase}">
+            <td th:text="${purch.id}"></td>
+            <td th:text="${purch.Products.name}"></td>
+            <td th:text="${purch.Products.description}"></td>
+            <td th:text="${purch.quantity}"></td>
+            <td th:text="${purch.size}"></td>
+            <td th:text="${purch.cost}"></td>
+            <td th:text="${purch.created_at}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table id="salesTable" class="table">
+        <thead>
+        <tr>
+            <th>Заказ</th>
+            <th>Дата заказа</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${sales}">
+            <td th:text="${order.Products.price}"></td>
+            <td th:text="${order.created_at}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center" >
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+    </div>
+</footer>
+
+<div class="modal fade" id="withdrawModal" tabindex="-1" role="dialog" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="withdrawModalLabel">Вывести средства</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="withdrawForm" action="/addWithdraw" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="amount">Сумма:</label>
+                        <input type="number" class="form-control" id="amount" name="amount" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Цель вывода средств:</label>
+                        <select class="form-control" id="destination" name="destination">
+                            <option value="маркетинг">Маркетинг</option>
+                            <option value="зарплаты">Зарплаты</option>
+                            <option value="другая причина">Другая причина</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button id="withdrawButton" type="submit" class="btn btn-primary">Вывести</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для сообщений -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Результат операции</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="successMessage" class="alert alert-success" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Операция выполнена успешно
+                </div>
+                <div id="failureMessage" class="alert alert-danger" style="display: none;">
+                    <i class="fas fa-times-circle"></i> Ошибка операции
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Обработчик события при отправке формы
+    document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Отменить отправку формы
+
+        var amount = document.getElementById('amount').value;
+        var balance = ${balance};
+
+        if (amount > balance) {
+            document.getElementById('failureMessage').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+        } else {
+            // Ваш код для обработки вывода средств
+            // Если операция выполнена успешно:
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('failureMessage').style.display = 'none';
+        }
+
+        // Показать модальное окно с сообщением
+        $('#messageModal').modal('show');
+    });
+
+    // Обработчик события при закрытии модального окна
+    $('#withdrawModal').on('hidden.bs.modal', function() {
+        document.getElementById('amount').value = '';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('failureMessage').style.display = 'none';
+    });
+
+    // Обработчик события при закрытии модального окна с сообщением
+    $('#messageModal').on('hidden.bs.modal', function() {
+        document.getElementById('withdrawModal').modal('show');
+    });
+</script>
+<script>
+    // Извлечение данных из таблицы
+    var purchaseTable = document.querySelector('#purchaseTable');
+    var salesTable = document.querySelector('#salesTable');
+    var purchaseData = [];
+    var salesData = [];
+
+    for (var i = 1; i < purchaseTable.rows.length; i++) {
+        var cost = parseFloat(purchaseTable.rows[i].cells[5].innerText);
+        var date = purchaseTable.rows[i].cells[6].innerText;
+        purchaseData.push({ date: date, cost: cost });
+    }
+
+    for (var i = 1; i < salesTable.rows.length; i++) {
+        var cost = parseFloat(salesTable.rows[i].cells[0].innerText);
+        var date = salesTable.rows[i].cells[1].innerText;
+        salesData.push({ date: date, cost: cost });
+    }
+
+    // Суммирование заказов и покупок для одной даты
+    var mergedData = [];
+
+    for (var i = 0; i < purchaseData.length; i++) {
+        var purchase = purchaseData[i];
+        var mergedItem = mergedData.find(item => item.date === purchase.date);
+
+        if (mergedItem) {
+            mergedItem.purchase += purchase.cost;
+        } else {
+            mergedData.push({ date: purchase.date, purchase: purchase.cost, sales: 0 });
+        }
+    }
+
+    for (var i = 0; i < salesData.length; i++) {
+        var sale = salesData[i];
+        var mergedItem = mergedData.find(item => item.date === sale.date);
+
+        if (mergedItem) {
+            mergedItem.sales += sale.cost;
+        } else {
+            mergedData.push({ date: sale.date, purchase: 0, sales: sale.cost });
+        }
+    }
+
+    function updateChart() {
+            var startDate = new Date(document.getElementById('start').value);
+            var endDate = new Date(document.getElementById('end').value);
+
+             var filteredData = mergedData.filter(item => {
+                var currentDate = new Date(item.date);
+                return currentDate >= startDate && currentDate <= endDate;
+            });
+
+            var filteredDates = filteredData.map(item => item.date);
+            var filteredPurchaseValues = filteredData.map(item => item.purchase);
+            var filteredSalesValues = filteredData.map(item => item.sales);
+
+            chart.data.labels = filteredDates;
+            chart.data.datasets[0].data = filteredPurchaseValues;
+            chart.data.datasets[1].data = filteredSalesValues;
+            chart.update();
+
+            // Вычисление и обновление итоговой прибыли
+            var totalPurchase = filteredPurchaseValues.reduce((acc, val) => acc + val, 0);
+            var totalSales = filteredSalesValues.reduce((acc, val) => acc + val, 0);
+            var profit = totalSales - totalPurchase;
+
+            var totalRevenue = document.getElementById('totalRevenue');
+            totalRevenue.classList.add('hidden-h2');
+
+            document.getElementById('profitField').innerText = 'Выручка за выбранный период: ' + profit.toFixed(2); // Округление значения до 2 знаков после запятой
+        }
+
+    // Сортировка данных по дате
+    mergedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Создание линейной диаграммы
+    var ctx = document.getElementById('myChart').getContext('2d');
+        var dates = mergedData.map(item => item.date);
+        var purchaseValues = mergedData.map(item => item.purchase);
+        var salesValues = mergedData.map(item => item.sales);
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [
+                    {
+                        label: 'Закупки',
+                        data: purchaseValues,
+                        borderColor: 'red',
+                        backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                        fill: true
+                    },
+                    {
+                        label: 'Заказы',
+                        data: salesValues,
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Дата'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Сумма'
+                        }
+                    }
+                }
+            }
+        });
+</script>
+<script>
+    // Получаем ссылки на элементы input, таблицу и кнопку "Очистить"
+    var startDateInput = document.getElementById("startDate");
+    var endDateInput = document.getElementById("endDate");
+    var purchaseTable = document.getElementById("purchaseTable");
+    var clearButton = document.getElementById("clearButton");
+
+    // Функция для фильтрации по дате
+    function filterByDate() {
+        var startDate = startDateInput.value;
+        var endDate = endDateInput.value;
+        var rows = purchaseTable.getElementsByTagName("tr");
+
+        for (var i = 1; i < rows.length; i++) {
+            var dateColumn = rows[i].getElementsByTagName("td")[6]; // Индекс колонки с датой закупки
+
+            if (dateColumn) {
+                var date = dateColumn.textContent;
+
+                if (date < startDate || date > endDate) {
+                    rows[i].style.display = "none"; // Скрытие строк, не удовлетворяющих фильтру по дате
+                } else {
+                    rows[i].style.display = ""; // Отображение строк, удовлетворяющих фильтру по дате
+                }
+            }
+        }
+    }
+
+    // Функция для сброса фильтров и отображения всех строк таблицы
+    function clearFilters() {
+        startDateInput.value = "";
+        endDateInput.value = "";
+
+        var rows = purchaseTable.getElementsByTagName("tr");
+        for (var i = 1; i < rows.length; i++) {
+            rows[i].style.display = ""; // Отображение всех строк таблицы
+        }
+    }
+
+    // Вешаем обработчики событий на input-элементы
+    startDateInput.addEventListener("change", filterByDate);
+    endDateInput.addEventListener("change", filterByDate);
+
+    // Вешаем обработчик события на кнопку "Очистить"
+    clearButton.addEventListener("click", clearFilters);
+
+    // Функция для сортировки таблицы по столбцу
+    function sortTable(columnIndex) {
+        var rows = purchaseTable.rows;
+        var switching = true;
+        var shouldSwitch, i;
+
+        while (switching) {
+            switching = false;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                var currentCell = rows[i].getElementsByTagName("td")[columnIndex];
+                var nextCell = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                // Сравнение значений ячеек для определения необходимости перестановки
+                if (currentCell.innerHTML.toLowerCase() > nextCell.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+
+    // Вешаем обработчики событий на заголовки столбцов
+    var headers = purchaseTable.getElementsByTagName("th");
+    for (var i = 0; i < headers.length; i++) {
+        headers[i].addEventListener("click", function() {
+            var columnIndex = Array.prototype.indexOf.call(this.parentNode.children, this);
+            sortTable(columnIndex);
+        });
+    }
+</script>
+</body>
+</html>
