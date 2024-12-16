@@ -26,13 +26,13 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-bag" viewBox="0 0 16 16">
                     <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                 </svg>
-                <span class="fs-4 ms-2" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example" data-translation="Пример ценообразования" data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+                <span class="fs-4 ms-2"><b>la_men</b></span>
             </a>
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black" th:if="${user == 1}"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black" th:if="${user == 0}"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Войти</ya-tr-span></a>
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
-                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="4-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+                <a th:href="@{/profile}" class="me-3 py-2 link-body-emphasis text-decoration-none" th:if="${user == 1}">Профиль</a>
+                <a th:href="@{/login}" class="me-3 py-2 link-body-emphasis text-decoration-none" th:if="${user == 0}">Войти</a>
+                <a href="#" class="me-3 py-2 link-body-emphasis text-decoration-none">Поддержка</a>
+                <a href="#" class="py-2 link-body-emphasis text-decoration-none">О нас</a>
             </nav>
         </div>
     </header>
@@ -42,26 +42,21 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarsExample02">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <h5 class="mt-1">
-                        <a href="/moderation" th:if="${admin==1}" class="btn btn-primary">Модерация отзывов</a>
-                        <a href="/add/product" th:if="${admin==1}" class="btn btn-primary">Добавить товар</a>
-                        <a href="/basket" class="text-decoration-none" th:if="${user == 1  && admin != 1}"><ya-tr-span style="color: white" data-index="27-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value=" Example link text " data-translation="" data-ch="0" data-type="trSpan" data-selected="false"> Корзина  </ya-tr-span>
-                            <svg xmlns="http://www.w3.org/2000/svg" style="color: white" width="20" height="20" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
-                                <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
-                            </svg>
-                            <span id="cart-marker" style="display: none; font-size: 0.8em; vertical-align: super; color: white;"></span>
-                        </a>
-                        <a href="/basket" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#modalChoice"  th:if="${user == 0  && admin != 1}"><ya-tr-span style="color: white" data-index="27-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value=" Example link text " data-translation="" data-ch="0" data-type="trSpan" data-selected="false"> Корзина  </ya-tr-span>
-                            <svg xmlns="http://www.w3.org/2000/svg" style="color: white" width="20" height="20" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
-                                <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
-                            </svg>
-                        </a>
-                    </h5>
-                </li>
-                <li style="color: white" class="ms-5 mt-1">
-                    Сортировка по цене:
-                </li>
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <h5 class="mt-1">
+                            <a th:href="@{/moderation}" class="btn btn-primary" th:if="${admin == 1}">Модерация отзывов</a>
+                            <a th:href="@{/add/product}" class="btn btn-primary" th:if="${admin == 1}">Добавить товар</a>
+                            <a th:href="@{/basket}" class="text-decoration-none" th:if="${user == 1}" style="color: white">
+                                Корзина
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
+                                    <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
+                                </svg>
+                            </a>
+                        </h5>
+                    </li>
+                    <li class="nav-item ms-5 mt-1 text-white">Сортировка по цене:</li>
+                </ul>
                 <li class="nav-item ms-3 mt-1">
                     <a th:href="@{'/home/' + ${id}(
         sort='asc',
@@ -193,25 +188,14 @@
     </ul>
 </div>
 </div>
-<div>
-<div th:if="${sub.isEmpty()}" class="alert alert-secondary container py = 5 mt-3">
-   Ни один товар не подходит
-</div>
+
+    <div th:if="${sub.isEmpty()}" class="alert alert-secondary container py-5 mt-3">
+        Ни один товар не подходит
+    </div>
     <div class="container py-2">
         <div class="row">
-            <div class="col-md-6">
-                <div th:each="el, iterStat : ${sub}" class="card mb-2" th:if="${iterStat.index % 2 == 0}">
-                    <img th:src="@{'data:image/png;base64,'+${el.generateBase64Image()}}" width="180" height="240" class="m-3" alt="Product Image">
-                    <div class="card-body">
-                        <h3 class="card-title" th:text="${el.name}"></h3>
-                        <h4 class="card-subtitle" th:text="${el.price}"></h4>
-                        <p class="card-text" th:text="${el.description}"></p>
-                        <a th:href="'/home/' + ${el.id} + '/about'" class="btn btn-primary">Подробнее</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div th:each="el, iterStat : ${sub}" class="card mb-2" th:if="${iterStat.index % 2 != 0}">
+            <div th:each="el, iterStat : ${sub}" class="col-md-6">
+                <div class="card mb-2" th:if="${iterStat.index % 2 == 0 || iterStat.index % 2 != 0}">
                     <img th:src="@{'data:image/png;base64,'+${el.generateBase64Image()}}" width="180" height="240" class="m-3" alt="Product Image">
                     <div class="card-body">
                         <h3 class="card-title" th:text="${el.name}"></h3>
@@ -223,7 +207,7 @@
             </div>
         </div>
     </div>
-</div>
+
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -354,8 +338,6 @@
 
     updateCartMarker(cartItemCount);
 
-</script>
-<script>
     document.getElementById('filterForm').addEventListener('submit', function(e) {
         e.preventDefault();
 

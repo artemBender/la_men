@@ -2,26 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Регистрация</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div class = "container py = 5 mt-2">
+<div class="container py-5 mt-2">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
-                <span class="fs-4" style="color: black" ><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Pricing example" data-translation="Пример ценообразования" data-ch="0" data-type="trSpan"><b>la_men</b></ya-tr-span></span>
+                <span class="fs-4 text-black"><b>la_men</b></span>
             </a>
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Вход</ya-tr-span></a>
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/registration" style="color: black"><ya-tr-span data-index="1-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Log in" data-ch="0" data-type="trSpan">Регистрация</ya-tr-span></a>
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Support" data-ch="0" data-type="trSpan">Поддержка</ya-tr-span></a>
-                <a class="py-2 link-body-emphasis text-decoration-none" href="#" style="color: black"><ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="About" data-ch="0" data-type="trSpan">О нас</ya-tr-span></a>
+                <a class="me-3 py-2 text-black text-decoration-none" href="/login">Вход</a>
+                <a class="me-3 py-2 text-black text-decoration-none" href="/registration">Регистрация</a>
+                <a class="me-3 py-2 text-black text-decoration-none" href="#">Поддержка</a>
+                <a class="py-2 text-black text-decoration-none" href="#">О нас</a>
             </nav>
         </div>
     </header>
 
-    <form action="/registration" method="post" class="needs-validation" novalidate="">
+    <form action="/registration" method="post" class="needs-validation" novalidate>
         <div class="row g-3">
             <div th:if="${error_message_1}" class="badge text-bg-danger rounded-pill mb-3" style="font-size: 13px;">
                 [[${error_message_1}]]
@@ -29,51 +29,45 @@
             <div th:if="${error_message_2}" class="badge text-bg-danger rounded-pill mb-3" style="font-size: 13px;">
                 [[${error_message_2}]]
             </div>
-            <div class="col-sm-6">
-                <label for="firstName" class="form-label"><ya-tr-span data-index="15-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="First name" data-translation="Имя пользователя" data-ch="0" data-type="trSpan">Имя пользователя</ya-tr-span></label>
-                <input type="text" name="firstname" class="form-control" id="firstName" placeholder="" value="" required="">
-                <div class="invalid-feedback">
-                    Valid first name is required.
-                </div>
-            </div>
 
             <div class="col-sm-6">
-                <label for="lastName" class="form-label"><ya-tr-span data-index="16-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Last name" data-translation="Фамилия" data-ch="0" data-type="trSpan">Фамилия</ya-tr-span></label>
-                <input type="text" name="lastname" class="form-control" id="lastName" placeholder="" value="" required="">
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
+                <label for="firstName" class="form-label">Имя пользователя</label>
+                <input type="text" name="firstname" class="form-control" id="firstName" required>
+                <div class="invalid-feedback">Введите имя пользователя.</div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Фамилия</label>
+                <input type="text" name="lastname" class="form-control" id="lastName" required>
+                <div class="invalid-feedback">Введите фамилию.</div>
             </div>
 
             <div class="col-12">
-                <label for="phone" class="form-label"><ya-tr-span data-index="18-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Phone " data-translation="Номер мобильного телефона " data-ch="0" data-type="trSpan">Номер мобильного телефона </ya-tr-span><span class="text-body-secondary"></span></label>
-                <input type="text" name="phone" class="form-control" id="phone" placeholder="+375 ">
-                <div class="invalid-feedback">
-                    Please enter your phone number.
-                </div>
+                <label for="phone" class="form-label">Номер мобильного телефона</label>
+                <input type="text" name="phone" class="form-control" id="phone" placeholder="+375">
+                <div class="invalid-feedback">Введите номер телефона.</div>
             </div>
 
             <div class="col-12">
-                <label for="email" class="form-label"><ya-tr-span data-index="18-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Email " data-translation="Электронная почта " data-ch="0" data-type="trSpan">Электронная почта </ya-tr-span><span class="text-body-secondary"></span></label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required="required">
-                <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                </div>
+                <label for="email" class="form-label">Электронная почта</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required>
+                <div class="invalid-feedback">Введите корректный адрес электронной почты.</div>
             </div>
+
             <div class="col-12">
-                <label for="password" class="form-label"><ya-tr-span data-index="19-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Password" data-translation="Пароль" data-ch="0" data-type="trSpan">Пароль</ya-tr-span></label>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Пароль" required="required">
-                <div class="invalid-feedback">
-                    Please enter your password.
-                </div>
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Пароль" required>
+                <div class="invalid-feedback">Введите пароль.</div>
             </div>
-            <button class="w-100 btn btn-primary btn-lg" type="submit"><ya-tr-span data-index="14-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Continue to checkout" data-translation="Зарегистрироваться" data-ch="0" data-type="trSpan">Зарегистрироваться</ya-tr-span></button>
+
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Зарегистрироваться</button>
         </div>
     </form>
 </div>
+
 <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div style="margin-left: 20px;" class="col-md-4 d-flex align-items-center" >
-        <span class="mb-3 mb-md-0 text-body-secondary">© 2023 la_men, Inc</span>
+    <div class="col-md-4 d-flex align-items-center" style="margin-left: 20px;">
+        <span class="text-body-secondary">&copy; 2023 la_men, Inc</span>
     </div>
 </footer>
 </body>

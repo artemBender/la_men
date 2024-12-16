@@ -37,8 +37,8 @@
                 </a>
             </h4>
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile" style="color: black" th:if="${user == 1}"><ya-tr-span data-index="2-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Профиль</ya-tr-span></a>
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login" style="color: black" th:if="${user == 0}"><ya-tr-span data-index="5-0" data-translated="false" data-source-lang="en" data-target-lang="ru" data-value="Profile" data-ch="0" data-type="trSpan">Войти</ya-tr-span></a>
+                <a th:if="${user == 1}" th:href="@{/profile}" class="me-3 py-2 text-black text-decoration-none">Профиль</a>
+                <a th:if="${user == 0}" th:href="@{/login}" class="me-3 py-2 text-black text-decoration-none">Войти</a>
 
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#" style="color: black">
                     <ya-tr-span data-index="3-0" data-translated="false" data-source-lang="en" data-target-lang="ru"
@@ -70,7 +70,7 @@
                 <a class="link-body-emphasis fw-semibold text-decoration-none" th:href="'/home/' + ${product.catalog_sub_id}">[[${subCatalogName}]]</a>
             </li>
             <li class="breadcrumb-item">
-                <a class="link-body-emphasis fw-semibold text-decoration-none" th:href="'/home/' + ${id} + '/about'">[[${product.description} + ' ' + ${product.name}]]</a>
+                <a class="link-body-emphasis fw-semibold text-decoration-none" th:href="@{/home/{id}/about(id=${id})}">[[${product.description} + ' ' + ${product.name}]]</a>
             </li>
         </ol>
     </nav>
